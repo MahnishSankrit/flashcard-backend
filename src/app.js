@@ -6,9 +6,20 @@ const app = express();
 
 // middleware
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CORS_ORIGIN
+];
+
 app.use(cors({
- origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  credentials: true,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: false,
 }));
 
 // TEMP DEBUG (remove after success)
