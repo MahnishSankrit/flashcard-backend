@@ -5,7 +5,8 @@ import fs from "fs";
 export const generateFlashcard = async (req, res) => {
   try {
     // 1. get file from multer fields()
-    const file = req.files?.file?.[0];
+    const file = req.file
+      // ?.file?.[0];
 
     if (!file) {
       return res.status(400).json({
